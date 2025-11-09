@@ -9,7 +9,7 @@ from . import serializers
 
 # Create your views here.
 class CreateTransactionView(generics.CreateAPIView):
-    queryset = serializers.TransactionSerializer.Meta.model.objects.all()
+    queryset = serializers.TransactionSerializer.Meta.model.objects.all()  # type: ignore
     serializer_class = serializers.TransactionSerializer
 
     def create(self, request, *args, **kwargs):
@@ -17,7 +17,8 @@ class CreateTransactionView(generics.CreateAPIView):
 
 
 class TransactionView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = serializers.TransactionSerializer.Meta.model.objects.all()
+    queryset = serializers.TransactionSerializer.Meta.model.objects.all()  # type: ignore
+
     serializer_class = serializers.TransactionSerializer
 
     def patch(self, request, *args, **kwargs):
@@ -28,7 +29,8 @@ class TransactionView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ListTransactionsView(generics.ListCreateAPIView):
-    queryset = serializers.TransactionSerializer.Meta.model.objects.all()
+    queryset = serializers.TransactionSerializer.Meta.model.objects.all()  # type: ignore
+
     serializer_class = serializers.TransactionSerializer
 
     def get_queryset(self):
@@ -78,9 +80,10 @@ class ListTransactionsView(generics.ListCreateAPIView):
         if afterDatetime:
             queryset = queryset.filter(datetime__gt=afterDatetime)
         if skip:
-            queryset = queryset[int(skip) :]
+            queryset = queryset[int(skip) :]  # type: ignore
+
         if limit:
-            queryset = queryset[: int(limit)]
+            queryset = queryset[: int(limit)]  # type: ignore
 
         return queryset
 
@@ -95,12 +98,13 @@ class ListTransactionsView(generics.ListCreateAPIView):
 
 
 class AccountBalancesView(APIView):
-    queryset = serializers.TransactionSerializer.Meta.model.objects.all()
+    queryset = serializers.TransactionSerializer.Meta.model.objects.all()  # type: ignore
+
     serializer_class = serializers.TransactionSerializer
 
     def get(self, request):
         Model = self.serializer_class.Meta.model
-        balances = Model.objects.values("account").annotate(
+        balances = Model.objects.values("account").annotate(  # type: ignore
             balance=Sum(
                 Case(
                     When(cashflow="income", then=F("amount")),
