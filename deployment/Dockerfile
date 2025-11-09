@@ -1,5 +1,7 @@
 FROM python:3.11-slim
 
+ENV PATH="/root/.local/bin:$PATH"
+
 WORKDIR /app
 
 # Update and install dependencies
