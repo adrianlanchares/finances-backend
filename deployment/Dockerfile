@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Update and install dependencies
+RUN apt-get update && apt-get install -y curl
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+COPY pyproject.toml  ./
+RUN uv sync
+
+COPY . .
+
+# Update database and run
+CMD uv run python manage.py makemigrations --noinput && \
+    uv run python manage.py migrate --noinput && \
+    uv run python manage.py runserver 0.0.0.0:8000
