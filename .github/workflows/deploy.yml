@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Stop existing containers
-        run: docker compose -f deploment/docker-compose.yml down
+        run: docker compose -f deployment/docker-compose.yml down
 
       - name: Build and deploy containers
-        run: docker compose -f deploment/docker-compose.yml up -d --build
+        run: docker compose -f deployment/docker-compose.yml up -d --build
