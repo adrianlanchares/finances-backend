@@ -13,6 +13,6 @@ RUN uv sync
 COPY . .
 
 # Update database and run
-CMD uv run python -m finances_backend.manage.py makemigrations --noinput && \
-    uv run python -m finances_backend.manage.py migrate --noinput && \
-    uv run python -m finances_backend.manage.py runserver 0.0.0.0:8000
+CMD uv run python finances_backend/manage.py makemigrations --noinput && \
+    uv run python finances_backend/manage.py migrate --noinput && \
+    uv run python finances_backend/manage.py runserver 0.0.0.0:8000
