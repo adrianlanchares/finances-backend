@@ -1,0 +1,30 @@
+services:
+  finances-backend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+
+    container_name: finances-backend
+
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+
+    ports:
+      - "127.0.0.1:8008:8008"
+
+    restart: unless-stopped
+
+    volumes:
+      - ~/.streamlit:/root/.streamlit
+
+    networks:
+      - finances
+
+networks:
+  finances:
+    external: true
