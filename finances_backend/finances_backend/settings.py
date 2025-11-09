@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)$0j2x_ufpca1do57iqjyg^_hyem7tb9%+h2skhd=5w)fo*j=d"
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["finance.backend.coco.homelab"]
 CORS_ALLOW_ALL_ORIGINS = True
 
 
