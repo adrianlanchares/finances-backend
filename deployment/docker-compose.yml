@@ -2,7 +2,7 @@ services:
   finances-backend:
     build:
       context: ..
-      dockerfile: Dockerfile
+      dockerfile: deployment/Dockerfile
 
     container_name: finances-backend
 
