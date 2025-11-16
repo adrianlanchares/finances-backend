@@ -6,4 +6,5 @@ urlpatterns = [
     path("create/", views.CreateTransactionView.as_view(), name="create-transaction"),
     path("<int:pk>/", views.TransactionView.as_view(), name="transaction-details"),
     path("balance/", views.AccountBalancesView.as_view(), name="account-balances"),
+    path("Delete_all/", views.DeleteAllTransactionsView.as_view(), name="delete-all"),
 ]

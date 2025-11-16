@@ -106,3 +106,19 @@ class AccountBalancesView(APIView):
         )
 
         return Response({b["account"]: b["balance"] for b in balances})
+
+
+class DeleteAllTransactionsView(APIView):
+    """
+    Deletes all transactions from the database.
+    """
+
+    serializer_class = serializers.TransactionSerializer
+
+    def delete(self, request, *args, **kwargs):
+        Model = self.serializer_class.Meta.model
+        deleted_count, _ = Model.objects.all().delete()  # type: ignore
+        return Response(
+            {"detail": f"Deleted {deleted_count} transactions."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
