@@ -15,7 +15,6 @@ class Transaction(models.Model):
     description = models.CharField(max_length=255)
     category = models.CharField(max_length=100)
     account = models.CharField(max_length=100)
-    cashflow = models.CharField(max_length=100)
     datetime = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -23,4 +22,3 @@ class Transaction(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
