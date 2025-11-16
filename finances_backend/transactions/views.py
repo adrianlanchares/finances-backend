@@ -41,7 +41,6 @@ class ListTransactionsView(generics.ListCreateAPIView):
         description = self.request.query_params.get("description", None)
         category = self.request.query_params.get("category", None)
         account = self.request.query_params.get("account", None)
-        cashflow = self.request.query_params.get("cashflow", None)
         date = self.request.query_params.get("date", None)
         beforeDatetime = self.request.query_params.get("beforeDatetime", None)
         afterDatetime = self.request.query_params.get("afterDatetime", None)
@@ -58,8 +57,6 @@ class ListTransactionsView(generics.ListCreateAPIView):
             queryset = queryset.filter(category__icontains=category)
         if account:
             queryset = queryset.filter(account__icontains=account)
-        if cashflow:
-            queryset = queryset.filter(cashflow__icontains=cashflow)
         if date:
             if date == "all":
                 pass
@@ -105,12 +102,7 @@ class AccountBalancesView(APIView):
     def get(self, request):
         Model = self.serializer_class.Meta.model
         balances = Model.objects.values("account").annotate(  # type: ignore
-            balance=Sum(
-                Case(
-                    When(cashflow="income", then=F("amount")),
-                    When(cashflow="expense", then=-F("amount")),
-                )
-            )
+            balance=Sum(F("amount"))
         )
 
         return Response({b["account"]: b["balance"] for b in balances})
