@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     env:
       DB_NAME: ${{ secrets.DB_NAME }}
@@ -21,22 +21,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run remote commands over SSH
-        uses: appleboy/ssh-action@master
-        with:
-          username: ${{ secrets.SSH_USER }}
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          protocol: tcp6
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd ~/homelab/docker/finances-backend
-            git pull origin main
-            docker compose -f deployment/docker-compose.yml down
-            docker compose -f deployment/docker-compose.yml up -d --build \
-              -e DB_NAME=${DB_NAME} \
-              -e DB_USER=${DB_USER} \
-              -e DB_PASSWORD=${DB_PASSWORD} \
-              -e DB_HOST=${DB_HOST} \
-              -e DB_PORT=${DB_PORT} \
-              -e DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - name: Stop existing containers
+        run: docker compose -f deploment/docker-compose.yml down
+
+      - name: Build and deploy containers
+        run: docker compose -f deploment/docker-compose.yml up -d --build
