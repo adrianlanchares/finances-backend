@@ -7,7 +7,6 @@ from django.db.models import Sum, Case, When, F
 from . import serializers
 
 
-# Create your views here.
 class CreateTransactionView(generics.CreateAPIView):
     queryset = serializers.TransactionSerializer.Meta.model.objects.all()  # type: ignore
     serializer_class = serializers.TransactionSerializer
