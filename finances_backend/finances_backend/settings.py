@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-SECRET_KEY = "django-insecure-)$0j2x_ufpca1do57iqjyg^_hyem7tb9%+h2skhd=5w)fo*j=d"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "fallback_key")
 DEBUG = True
 
 ALLOWED_HOSTS = ["finances.backend.coco.homelab"]
