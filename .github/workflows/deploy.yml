@@ -21,24 +21,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up WARP
-        uses: fscarmen/warp-on-actions@v1.1
-        with:
-          stack: dual
-
-      - name: testing ipv6 for command
+      - name: Setup SSH
         run: |
-          curl -m 9 --ipv6 --verbose https://google.com
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_25519
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Run remote commands over SSH
-        uses: appleboy/ssh-action@master
-        with:
-          username: ${{ secrets.SSH_USER }}
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          protocol: tcp6
-          port: ${{ secrets.SSH_PORT }}
-          script: |
+      - name: Deploy via SSH
+        run: |
+          ssh -6 ${{ secrets.SSH_USER}}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ~/homelab/docker/finances-backend
             git pull origin main
             docker compose -f deployment/docker-compose.yml down
@@ -48,4 +40,6 @@ jobs:
               -e DB_PASSWORD=${DB_PASSWORD} \
               -e DB_HOST=${DB_HOST} \
               -e DB_PORT=${DB_PORT} \
-              -e DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+              -e DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}          
+          EOF
+
