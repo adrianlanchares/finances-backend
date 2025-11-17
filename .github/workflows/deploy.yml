@@ -25,4 +25,4 @@ jobs:
         run: docker compose -f deployment/docker-compose.yml down
 
       - name: Build and deploy containers
-        run: docker compose -f deploment/docker-compose.yml up -d
+        run: docker compose -f deployment/docker-compose.yml up -d
