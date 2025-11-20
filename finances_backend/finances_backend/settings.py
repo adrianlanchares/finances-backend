@@ -26,6 +26,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "finances.backend.coco.homelab",
     "finances-backend",
+    "finances-backend:8008",
     "localhost",
     "127.0.0.1",
 ]
